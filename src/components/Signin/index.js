@@ -13,7 +13,7 @@ const handleSubmit = (e, props) => {
   });
 };
 
-const Login = props => {
+const Signin = props => {
   const { getFieldDecorator } = props.form;
   return (
     <Container
@@ -69,6 +69,6 @@ const Login = props => {
   );
 };
 
-const WrappedLogin = Form.create({ name: "login_form" })(Login);
+const WrappedSignin = Form.create({ name: "login_form" })(Signin);
 
-export default WrappedLogin;
+export default WrappedSignin;

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Layout, Icon } from "antd";
 import { Route, withRouter, Switch } from "react-router-dom";
 import MenuHeader from "./MenuHeader";
-import Login from "../Login";
+import Signin from "../Signin";
 
 const { Header, Sider, Content, Footer } = Layout;
 
@@ -46,7 +46,7 @@ class App extends Component {
               <Route
                 path="/login"
                 render={props => (
-                  <Login onLogin={this.handleLogin} {...props} />
+                  <Signin onLogin={this.handleLogin} {...props} />
                 )}
               />
             </Switch>
