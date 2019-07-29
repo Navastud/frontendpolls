@@ -31,17 +31,9 @@ class NewPoll extends Component {
         hours: 0
       }
     };
-    this.addChoice = this.addChoice.bind(this);
-    this.removeChoice = this.removeChoice.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleQuestionChange = this.handleQuestionChange.bind(this);
-    this.handleChoiceChange = this.handleChoiceChange.bind(this);
-    this.handlePollDaysChange = this.handlePollDaysChange.bind(this);
-    this.handlePollHoursChange = this.handlePollHoursChange.bind(this);
-    this.isFormInvalid = this.isFormInvalid.bind(this);
   }
 
-  addChoice(event) {
+  addChoice = event => {
     const choices = this.state.choices.slice();
     this.setState({
       choices: choices.concat([
@@ -50,9 +42,9 @@ class NewPoll extends Component {
         }
       ])
     });
-  }
+  };
 
-  removeChoice(choiceNumber) {
+  removeChoice = choiceNumber => {
     const choices = this.state.choices.slice();
     this.setState({
       choices: [
@@ -60,9 +52,9 @@ class NewPoll extends Component {
         ...choices.slice(choiceNumber + 1)
       ]
     });
-  }
+  };
 
-  handleSubmit(event) {
+  handleSubmit = event => {
     event.preventDefault();
     const pollData = {
       question: this.state.question.text,
@@ -91,7 +83,7 @@ class NewPoll extends Component {
           });
         }
       });
-  }
+  };
 
   validateQuestion = questionText => {
     if (questionText.length === 0) {
@@ -112,7 +104,7 @@ class NewPoll extends Component {
     }
   };
 
-  handleQuestionChange(event) {
+  handleQuestionChange = event => {
     const value = event.target.value;
     this.setState({
       question: {
@@ -120,7 +112,7 @@ class NewPoll extends Component {
         ...this.validateQuestion(value)
       }
     });
-  }
+  };
 
   validateChoice = choiceText => {
     if (choiceText.length === 0) {
@@ -141,7 +133,7 @@ class NewPoll extends Component {
     }
   };
 
-  handleChoiceChange(event, index) {
+  handleChoiceChange = (event, index) => {
     const choices = this.state.choices.slice();
     const value = event.target.value;
 
@@ -153,23 +145,23 @@ class NewPoll extends Component {
     this.setState({
       choices: choices
     });
-  }
+  };
 
-  handlePollDaysChange(value) {
+  handlePollDaysChange = value => {
     const pollLength = Object.assign(this.state.pollLength, { days: value });
     this.setState({
       pollLength: pollLength
     });
-  }
+  };
 
-  handlePollHoursChange(value) {
+  handlePollHoursChange = value => {
     const pollLength = Object.assign(this.state.pollLength, { hours: value });
     this.setState({
       pollLength: pollLength
     });
-  }
+  };
 
-  isFormInvalid() {
+  isFormInvalid = () => {
     if (this.state.question.validateStatus !== "success") {
       return true;
     }
@@ -180,7 +172,7 @@ class NewPoll extends Component {
         return true;
       }
     }
-  }
+  };
 
   render() {
     const choiceViews = [];
