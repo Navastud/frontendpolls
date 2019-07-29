@@ -1,17 +1,16 @@
 import React, { Component } from "react";
 import "./App.css";
-import { Router, withRouter, Switch } from "react-router-dom";
+import { Route, withRouter, Switch } from "react-router-dom";
 import { getCurrentUser } from "../util/APIUtils";
-import { ACCESS_TOKEN } from "../constants";
 import PollList from "../poll/PollList";
 import NewPoll from "../poll/NewPoll";
-import Login from "../user/login/Logint";
+import Login from "../user/login/Login";
 import Signup from "../user/signup/Signup";
 import Profile from "../user/profile/Profile";
 import AppHeader from "../common/AppHeader";
 import NotFound from "../common/NotFound";
-import LoadingIndicator from "../common/LoadingIndicator";
 import PrivateRoute from "../common/PrivateRoute";
+import LoadingIndicator from "../common/LoadingIndicator";
 
 import { Layout, notification } from "antd";
 const { Content } = Layout;
@@ -83,12 +82,63 @@ class App extends Component {
   };
 
   render() {
-    if (this.state.isLoading) {
+    const { isAuthenticated, isLoading, currentUser } = this.state;
+    if (isLoading) {
       return <LoadingIndicator />;
     }
 
-    return <div>App</div>;
+    return (
+      <Layout className="app-container">
+        <AppHeader
+          isAuthenticated={isAuthenticated}
+          currentUser={currentUser}
+          onLogout={this.handleLogout}
+        />
+        <Content className="app-content">
+          <div className="container">
+            <Switch>
+              <Route
+                exact
+                path="/"
+                render={props => (
+                  <PollList
+                    isAuthenticated={isAuthenticated}
+                    currentUser={currentUser}
+                    handleLogout={this.handleLogout}
+                    {...props}
+                  />
+                )}
+              />
+              <Route
+                path="/login"
+                render={props => (
+                  <Login onLogin={this.handleLogin} {...props} />
+                )}
+              />
+              <Route path="/signup" component={Signup} />
+              <Route
+                path="/users/:username"
+                render={props => (
+                  <Profile
+                    isAuthenticated={isAuthenticated}
+                    currentUser={currentUser}
+                    {...props}
+                  />
+                )}
+              />
+              <PrivateRoute
+                authenticated={isAuthenticated}
+                path="/poll/new"
+                component={NewPoll}
+                handleLogout={this.handleLogout}
+              />
+              <Route component={NotFound} />
+            </Switch>
+          </div>
+        </Content>
+      </Layout>
+    );
   }
 }
 
-export default App;
+export default withRouter(App);
