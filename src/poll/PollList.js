@@ -25,11 +25,9 @@ class PollList extends Component {
       currentVotes: [],
       isLoading: false
     };
-    this.loadPollList = this.loadPollList.bind(this);
-    this.handleLoadMore = this.handleLoadMore.bind(this);
   }
 
-  loadPollList(page = 0, size = POLL_LIST_SIZE) {
+  loadPollList = (page = 0, size = POLL_LIST_SIZE) => {
     let promise;
     if (this.props.username) {
       if (this.props.type === "USER_CREATED_POLLS") {
@@ -72,7 +70,7 @@ class PollList extends Component {
           isLoading: false
         });
       });
-  }
+  };
 
   componentDidMount() {
     this.loadPollList();
@@ -95,20 +93,20 @@ class PollList extends Component {
     }
   }
 
-  handleLoadMore() {
+  handleLoadMore = () => {
     this.loadPollList(this.state.page + 1);
-  }
+  };
 
-  handleVoteChange(event, pollIndex) {
+  handleVoteChange = (event, pollIndex) => {
     const currentVotes = this.state.currentVotes.slice();
     currentVotes[pollIndex] = event.target.value;
 
     this.setState({
       currentVotes: currentVotes
     });
-  }
+  };
 
-  handleVoteSubmit(event, pollIndex) {
+  handleVoteSubmit = (event, pollIndex) => {
     event.preventDefault();
     if (!this.props.isAuthenticated) {
       this.props.history.push("/login");
@@ -150,7 +148,7 @@ class PollList extends Component {
           });
         }
       });
-  }
+  };
 
   render() {
     const pollViews = [];
