@@ -1,14 +1,17 @@
 import React from "react";
-import { Button, Form, Icon, Input } from "antd";
+import PropTypes from "prop-types";
+import { Button, Form, Icon, Input, Spin } from "antd";
 import Container from "../../util/Container";
 
 const handleSubmit = (e, props) => {
   e.preventDefault();
-  props.form.validateFields((err, values) => {
+
+  const { form, onHandleSignin } = props;
+
+  form.validateFields((err, values) => {
     if (!err) {
-      console.log("Received values of form: ", values);
       const loginRequest = Object.assign({}, values);
-      props.handleLogin(loginRequest);
+      onHandleSignin(loginRequest);
     }
   });
 };
@@ -67,6 +70,10 @@ const Signin = props => {
       </Form>
     </Container>
   );
+};
+
+Signin.propTypes = {
+  onHandleSignin: PropTypes.func.isRequired
 };
 
 const WrappedSignin = Form.create({ name: "login_form" })(Signin);

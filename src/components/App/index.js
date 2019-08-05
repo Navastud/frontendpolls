@@ -1,62 +1,62 @@
-import React, { Component } from "react";
+import React from "react";
+import PropTypes from "prop-types";
+import { Switch, Route } from "react-router-dom";
 import { Layout, Icon } from "antd";
-import { Route, withRouter, Switch } from "react-router-dom";
 import MenuHeader from "./MenuHeader";
 import Signin from "../Signin";
+import "./index.css";
 
-const { Header, Sider, Content, Footer } = Layout;
+const { Header, Content, Footer, Sider } = Layout;
 
-class App extends Component {
-  state = {
-    collapsed: false
-  };
-
-  toggle = () => this.setState({ collapsed: !this.state.collapsed });
-
-  render() {
-    const { collapsed } = this.state;
-    return (
+const App = ({
+  collapsed,
+  onToggleCollapsed,
+  currentUser,
+  isAuthenticated,
+  onHandleSignin
+}) => {
+  return (
+    <Layout>
+      <Sider trigger={null} collapsible collapsed={collapsed}>
+        <div className="logo" />
+        <MenuHeader isAuthenticated={isAuthenticated} />
+      </Sider>
       <Layout>
-        <Sider trigger={null} collapsible collapsed={collapsed}>
-          <div className="logo" />
-          <MenuHeader currentUser={null} />
-        </Sider>
-        <Layout>
-          <Header>
-            <Icon
-              className="trigger"
-              type={collapsed ? "menu-unfold" : "menu-fold"}
-              onClick={this.toggle}
-            />
-          </Header>
-          <Content
-            style={{
-              margin: "24px 16px ",
-              padding: 24,
-              background: "#FFFFFF",
-              minHeight: 460
-            }}
-          >
+        <Header className="header-layout">
+          <Icon
+            className="trigger"
+            type={collapsed ? "menu-unfold" : "menu-fold"}
+            onClick={onToggleCollapsed}
+          />
+        </Header>
+        <Content className="content-layout">
+          <div className="container">
             <Switch>
-              <Route
-                exact
-                path="/"
-                render={props => <div>Hello World !!</div>}
-              />
               <Route
                 path="/login"
                 render={props => (
-                  <Signin onLogin={this.handleLogin} {...props} />
+                  <Signin {...props} onHandleSignin={onHandleSignin} />
                 )}
               />
             </Switch>
-          </Content>
-          <Footer style={{ textAlign: "center" }}>
-            Polling App ©2019 Created by Navastud SPA
-          </Footer>
-        </Layout>
+          </div>
+        </Content>
+        <Footer className="footer-layout">
+          Polling App ©2019 Created by Navastud
+        </Footer>
       </Layout>
-    );
-  }
-}
-export default withRouter(App);
+    </Layout>
+  );
+};
+
+App.propTypes = {
+  currentUser: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    username: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
+  }),
+  isAuthenticated: PropTypes.bool.isRequired,
+  onHandleSignin: PropTypes.func.isRequired
+};
+
+export default App;

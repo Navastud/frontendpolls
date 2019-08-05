@@ -1,6 +1,6 @@
-import * as type from "../constants/ActionsType";
+import * as types from "../constants/ActionsType";
 
 export const signin = payload => ({
-  type: type.SIGNIN_REQUESTED,
+  type: types.SIGNIN_REQUESTED,
   payload
 });

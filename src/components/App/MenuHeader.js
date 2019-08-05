@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
 import { Menu, Icon } from "antd";
 
-const getMenuItems = currentUser => {
-  return currentUser
+const getMenuItems = isAuthenticated => {
+  return isAuthenticated
     ? [
         <Menu.Item key="/">
           <Link to="/">
@@ -47,20 +47,18 @@ const getMenuItems = currentUser => {
       ];
 };
 
-const MenuHeader = ({ currentUser }) => {
-  let menuItems = getMenuItems(currentUser);
+const MenuHeader = ({ isAuthenticated }) => {
+  const menuItems = getMenuItems(isAuthenticated);
 
   return (
-    <Menu mode="inline" defaultSelectedKeys={["1"]}>
+    <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
       {menuItems}
     </Menu>
   );
 };
 
 MenuHeader.propTypes = {
-  currentUser: PropTypes.shape({
-    username: PropTypes.string.isRequired
-  })
+  isAuthenticated: PropTypes.bool.isRequired
 };
 
 export default withRouter(MenuHeader);
