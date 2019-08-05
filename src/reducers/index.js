@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
+import authentication from "./authenticationReducer";
 
-const reducers = combineReducers({});
+const rootReducers = combineReducers({ authentication });
 
-export default reducers;
+export default rootReducers;
